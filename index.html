@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidor de Amor Duplo 💑</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b8b, #ff8e9e);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+
+        h1 {
+            color: #ff2e63;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .name-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input {
+            padding: 12px 20px;
+            border: 2px solid #ff2e63;
+            border-radius: 50px;
+            font-size: 16px;
+            width: 100%;
+            text-align: center;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #ff2e63;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ff1a4f;
+            transform: scale(1.05);
+        }
+
+        .result-container {
+            margin: 30px 0;
+            position: relative;
+            height: 200px;
+        }
+
+        .love-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(#ff2e63 0%, #ff8e9e 0%);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 1s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .love-circle::before {
+            content: '';
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .percentage {
+            position: relative;
+            z-index: 1;
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff2e63;
+        }
+
+        .infinite {
+            font-size: 42px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .couple-names {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff2e63;
+        }
+
+        .messages-container {
+            margin-top: 30px;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            display: none;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 8px 0;
+            background: rgba(255, 46, 99, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .message:hover {
+            background: rgba(255, 46, 99, 0.2);
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💑 Medidor de Amor Duplo 💑</h1>
+        
+        <div class="input-group">
+            <div class="name-input">
+                <input type="text" id="name1" placeholder="Nome 1">
+            </div>
+            <div class="name-input">
+                <input type="text" id="name2" placeholder="Nome 2">
+            </div>
+        </div>
+        
+        <button onclick="calculateLove()">Calcular Amor 💖</button>
+        
+        <div class="result-container">
+            <div class="love-circle" id="loveCircle">
+                <div class="percentage" id="percentage">0%</div>
+            </div>
+            <div class="couple-names" id="coupleNames"></div>
+        </div>
+        
+        <button onclick="showLoveMessages()" id="showMessagesBtn">Mostrar 25 Formas de Dizer "Eu Te Amo"</button>
+        
+        <div class="messages-container" id="messagesContainer">
+            <!-- As mensagens serão inseridas aqui pelo JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Lista de mensagens de amor
+        const loveMessages = [
+            "1. Eu te amo (Português)",
+            "2. I love you (Inglês)",
+            "3. Te quiero (Espanhol)",
+            "4. Je t'aime (Francês)",
+            "5. Ich liebe dich (Alemão)",
+            "6. Ti amo (Italiano)",
+            "7. أحبك (Árabe)",
+            "8. 愛してる (Japonês)",
+            "9. 我爱你 (Chinês)",
+            "10. 사랑해 (Coreano)",
+            "11. Seni seviyorum (Turco)",
+            "12. Kocham cię (Polonês)",
+            "13. Te iubesc (Romeno)",
+            "14. Ik hou van jou (Holandês)",
+            "15. Jeg elsker dig (Dinamarquês)",
+            "16. Jag älskar dig (Sueco)",
+            "17. Volim te (Sérvio)",
+            "18. Mahal kita (Filipino)",
+            "19. Aishiteru (Japonês - profundo)",
+            "20. Σ'αγαπώ (Grego)",
+            "21. मैं तुमसे प्यार करता हूँ (Hindi)",
+            "22. Miluji tě (Tcheco)",
+            "23. Я тебя люблю (Russo)",
+            "24. Aku cinta kamu (Indonésio)",
+            "25. Is breá liom tú (Irlandês)"
+        ];
+
+        // Função para criar corações flutuantes
+        function createHearts(count = 20) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.className = 'heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 4000);
+                }, i * 100);
+            }
+        }
+
+        // Função principal
+        function calculateLove() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            const percentageDiv = document.getElementById('percentage');
+            const loveCircle = document.getElementById('loveCircle');
+            const coupleNamesDiv = document.getElementById('coupleNames');
+            
+            if (!name1 || !name2) {
+                alert("Por favor, digite ambos os nomes!");
+                return;
+            }
+            
+            // Verifica se é um casal especial
+            const lowerName1 = name1.toLowerCase();
+            const lowerName2 = name2.toLowerCase();
+            const specialCouple = 
+                (lowerName1 === 'nathaly' && lowerName2 === 'fellipe') || 
+                (lowerName1 === 'fellipe' && lowerName2 === 'nathaly');
+            
+            coupleNamesDiv.textContent = `${name1} ❤️ ${name2}`;
+            
+            if (specialCouple) {
+                // Efeito infinito para o casal especial
+                percentageDiv.innerHTML = '∞ INFINITO';
+                percentageDiv.classList.add('infinite');
+                loveCircle.style.background = 'conic-gradient(#ff2e63 0%, #ff8e9e 100%)';
+                
+                // Efeitos especiais
+                createHearts(50);
+                coupleNamesDiv.style.animation = 'pulse 1.5s infinite';
+            } else {
+                // Gera uma porcentagem aleatória para outros casais
+                const randomPercent = Math.floor(Math.random() * 31) + 70; // 70-100%
+                percentageDiv.textContent = randomPercent + '%';
+                percentageDiv.classList.remove('infinite');
+                loveCircle.style.background = `conic-gradient(#ff2e63 0%, #ff8e9e ${randomPercent}%, white ${randomPercent}%)`;
+                coupleNamesDiv.style.animation = 'none';
+                
+                // Efeitos menores
+                if (randomPercent > 90) createHearts(10);
+            }
+        }
+
+        // Mostrar as mensagens de amor
+        function showLoveMessages() {
+            const container = document.getElementById('messagesContainer');
+            const btn = document.getElementById('showMessagesBtn');
+            
+            if (container.style.display === 'none' || !container.style.display) {
+                container.innerHTML = '';
+                loveMessages.forEach(msg => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.textContent = msg;
+                    container.appendChild(messageDiv);
+                });
+                container.style.display = 'block';
+                btn.textContent = 'Ocultar Mensagens';
+            } else {
+                container.style.display = 'none';
+                btn.textContent = 'Mostrar 25 Formas de Dizer "Eu Te Amo"';
+            }
+        }
+    </script>
+</body>
+</html>
