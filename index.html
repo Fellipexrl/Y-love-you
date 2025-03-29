@@ -3,299 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medidor de Amor Duplo 💑</title>
+    <title>Nosso Amor Infinito</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff6b8b, #ff8e9e);
-            color: white;
-            text-align: center;
+        /* Reset e Base */
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
             min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
+        /* Efeito Partículas Douradas */
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, gold 20%, transparent 70%);
+            width: 6px;
+            height: 6px;
+            opacity: 0.7;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.9; }
+            100% { transform: translateY(-100vh) translateX(20vw); opacity: 0; }
+        }
+
+        /* Animação de Pétalas */
+        .petal {
+            position: absolute;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b8b"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>');
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Container Principal */
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 40px;
             width: 90%;
             max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin: 20px auto;
+            box-shadow: 0 0 30px rgba(255, 107, 139, 0.3);
+            border: 1px solid rgba(255, 107, 139, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin: 20px;
         }
 
         h1 {
-            color: #ff2e63;
+            font-size: 2.5rem;
             margin-bottom: 30px;
+            background: linear-gradient(to right, #ff6b8b, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        .input-group {
+        /* Estilo Infinity */
+        .infinity-container {
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .symbol {
+            font-size: 10rem;
+            background: linear-gradient(to right, #ff6b8b, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 107, 139, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 107, 139, 0.8), 0 0 30px rgba(255, 180, 71, 0.6); }
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #f5f5f5;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Contador de Tempo */
+        .time-together {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 107, 139, 0.1);
+            border-radius: 15px;
+            border-left: 3px solid #ff6b8b;
+        }
+
+        .time-together h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffb347;
+        }
+
+        .timer {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            margin: 25px 0;
+            margin-top: 10px;
         }
 
-        .name-input {
-            flex: 1;
-            min-width: 200px;
+        .time-unit {
+            background: rgba(20, 20, 20, 0.7);
+            padding: 10px 15px;
+            border-radius: 10px;
+            min-width: 70px;
+            border: 1px solid rgba(255, 107, 139, 0.3);
         }
 
-        input {
-            padding: 12px 20px;
-            border: 2px solid #ff2e63;
-            border-radius: 50px;
-            font-size: 16px;
-            width: 100%;
-            text-align: center;
-            outline: none;
-            margin-bottom: 10px;
+        .time-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff6b8b, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #ff6b8b; /* Fallback */
         }
 
-        button {
-            background: #ff2e63;
+        .time-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        /* Botões */
+        .btn {
+            background: linear-gradient(45deg, #ff6b8b, #ff8e53);
             color: white;
             border: none;
             padding: 12px 25px;
             border-radius: 50px;
-            font-size: 16px;
+            font-size: 1rem;
             cursor: pointer;
-            margin-top: 15px;
+            margin: 10px;
             transition: all 0.3s;
-            font-weight: bold;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(255, 107, 139, 0.3);
         }
 
-        button:hover {
-            background: #ff1a4f;
-            transform: scale(1.05);
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 139, 0.4);
         }
 
-        .result-container {
-            margin: 30px 0;
-            position: relative;
-            height: 200px;
+        .btn:active {
+            transform: translateY(1px);
         }
 
-        .love-circle {
-            width: 180px;
-            height: 180px;
+        .btn-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: conic-gradient(#ff2e63 0%, #ff8e9e 0%);
-            margin: 0 auto;
             display: flex;
-            align-items: center;
             justify-content: center;
-            position: relative;
-            transition: all 1s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            z-index: 100;
+            background: rgba(255, 107, 139, 0.9);
+            box-shadow: 0 0 20px rgba(255, 107, 139, 0.5);
         }
 
-        .love-circle::before {
-            content: '';
+        /* Mensagens Flutuantes */
+        .message-bubble {
             position: absolute;
-            width: 160px;
-            height: 160px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .percentage {
-            position: relative;
-            z-index: 1;
-            font-size: 36px;
-            font-weight: bold;
-            color: #ff2e63;
-        }
-
-        .infinite {
-            font-size: 42px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .couple-names {
-            margin-top: 20px;
-            font-size: 22px;
-            font-weight: bold;
-            color: #ff2e63;
-        }
-
-        .messages-container {
-            margin-top: 30px;
-            text-align: left;
-            max-height: 300px;
-            overflow-y: auto;
+            background: rgba(255, 107, 139, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
             padding: 15px;
-            display: none;
+            max-width: 200px;
+            font-size: 0.9rem;
+            animation: float-up 8s ease-in-out infinite;
+            opacity: 0;
+            border: 1px solid rgba(255, 107, 139, 0.3);
         }
 
-        .message {
-            padding: 10px;
-            margin: 8px 0;
-            background: rgba(255, 46, 99, 0.1);
-            border-radius: 10px;
-            transition: all 0.3s;
+        @keyframes float-up {
+            0% { transform: translateY(20px); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
         }
 
-        .message:hover {
-            background: rgba(255, 46, 99, 0.2);
-            transform: translateX(5px);
+        /* Responsivo */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .symbol {
+                font-size: 8rem; /* Ajuste para um tamanho mais legível */
+            }
+            
+            .timer {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Partículas de Fundo -->
+    <div id="particles"></div>
+    
+    <!-- Pétalas de Rosas -->
+    <div id="petals"></div>
+    
+    <!-- Container Principal -->
     <div class="container">
-        <h1>💑 Medidor de Amor Duplo 💑</h1>
+        <h1>Nosso Amor Infinito</h1>
         
-        <div class="input-group">
-            <div class="name-input">
-                <input type="text" id="name1" placeholder="Nome 1">
-            </div>
-            <div class="name-input">
-                <input type="text" id="name2" placeholder="Nome 2">
+        <div class="infinity-container">
+            <div class="symbol">∞</div>
+            <p class="quote" id="love-quote">"Alguns amores são medidos, o nosso é infinito"</p>
+        </div>
+        
+        <!-- Contador de Tempo Juntos -->
+        <div class="time-together">
+            <h2>Nossa Jornada</h2>
+            <div class="timer">
+                <div class="time-unit">
+                    <div class="time-number" id="days">0</div>
+                    <div class="time-label">Dias</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="hours">0</div>
+                    <div class="time-label">Horas</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="minutes">0</div>
+                    <div class="time-label">Minutos</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="seconds">0</div>
+                    <div class="time-label">Segundos</div>
+                </div>
             </div>
         </div>
         
-        <button onclick="calculateLove()">Calcular Amor 💖</button>
+        <button class="btn" id="new-quote" aria-label="Gerar nova mensagem">Nova Mensagem</button>
+        <button class="btn" id="surprise-btn" aria-label="Mostrar surpresa especial">Surpresa Especial</button>
         
-        <div class="result-container">
-            <div class="love-circle" id="loveCircle">
-                <div class="percentage" id="percentage">0%</div>
-            </div>
-            <div class="couple-names" id="coupleNames"></div>
-        </div>
+        <!-- Botão de Música -->
+        <button class="btn btn-music" id="music-btn" aria-label="Tocar ou pausar música">♫</button>
         
-        <button onclick="showLoveMessages()" id="showMessagesBtn">Mostrar 25 Formas de Dizer "Eu Te Amo"</button>
-        
-        <div class="messages-container" id="messagesContainer">
-            <!-- As mensagens serão inseridas aqui pelo JavaScript -->
-        </div>
+        <!-- Mensagens Flutuantes -->
+        <div id="message-container"></div>
     </div>
 
     <script>
-        // Lista de mensagens de amor
-        const loveMessages = [
-            "1. Eu te amo (Português)",
-            "2. I love you (Inglês)",
-            "3. Te quiero (Espanhol)",
-            "4. Je t'aime (Francês)",
-            "5. Ich liebe dich (Alemão)",
-            "6. Ti amo (Italiano)",
-            "7. أحبك (Árabe)",
-            "8. 愛してる (Japonês)",
-            "9. 我爱你 (Chinês)",
-            "10. 사랑해 (Coreano)",
-            "11. Seni seviyorum (Turco)",
-            "12. Kocham cię (Polonês)",
-            "13. Te iubesc (Romeno)",
-            "14. Ik hou van jou (Holandês)",
-            "15. Jeg elsker dig (Dinamarquês)",
-            "16. Jag älskar dig (Sueco)",
-            "17. Volim te (Sérvio)",
-            "18. Mahal kita (Filipino)",
-            "19. Aishiteru (Japonês - profundo)",
-            "20. Σ'αγαπώ (Grego)",
-            "21. मैं तुमसे प्यार करता हूँ (Hindi)",
-            "22. Miluji tě (Tcheco)",
-            "23. Я тебя люблю (Russo)",
-            "24. Aku cinta kamu (Indonésio)",
-            "25. Is breá liom tú (Irlandês)"
+        // Frases românticas personalizadas
+        const loveQuotes = [
+            "Baixinha, mas dona do pedaço mais alto do meu ser",
+            "Você é meu sempre em um mundo de efêmeros",
+            "Nosso amor não cabe em números, transcende a lógica",
+            "Desde 23/03/2024, meu coração tem dona",
+            "Sua altura? Perfeita pra nossos abraços se encaixarem",
+            "Te amo mais que todas as estrelas que você não alcança",
+            "Meu amor por você é como π - infinito e irracional",
+            "Baixinha, mas gigante no meu coração",
+            "Cada dia contigo é um capítulo do nosso conto de fadas",
+            "Se amor tivesse altura, o nosso ultrapassaria o universo"
         ];
-
-        // Função para criar corações flutuantes
-        function createHearts(count = 20) {
-            for (let i = 0; i < count; i++) {
+        
+        // Data do início do relacionamento (23/03/2024)
+        const startDate = new Date('2024-03-23T00:00:00');
+        
+        // Elementos DOM
+        const quoteElement = document.getElementById('love-quote');
+        const newQuoteBtn = document.getElementById('new-quote');
+        const surpriseBtn = document.getElementById('surprise-btn');
+        const musicBtn = document.getElementById('music-btn');
+        const daysElement = document.getElementById('days');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        
+        // Criar partículas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30; // Reduzido de 50 para 30
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Posição aleatória
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                
+                // Tamanho aleatório
+                const size = Math.random() * 8 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Atraso na animação
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Criar pétalas
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals');
+            const petalCount = 15;
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Posição aleatória
+                petal.style.left = `${Math.random() * 100}vw`;
+                
+                // Duração e atraso aleatórios
+                const duration = Math.random() * 10 + 5;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Tamanho aleatório
+                const size = Math.random() * 20 + 10;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                
+                petalsContainer.appendChild(petal);
+            }
+        }
+        
+        // Atualizar contador de tempo
+        function updateTimeTogether() {
+            const now = new Date();
+            const diff = now - startDate;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            daysElement.textContent = days;
+            hoursElement.textContent = hours;
+            minutesElement.textContent = minutes;
+            secondsElement.textContent = seconds;
+        }
+        
+        // Mostrar nova frase
+        function showNewQuote() {
+            const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+            quoteElement.textContent = `"${loveQuotes[randomIndex]}"`;
+            
+            // Efeito de transição
+            quoteElement.style.opacity = 0;
+            setTimeout(() => {
+                quoteElement.style.opacity = 1;
+            }, 300);
+        }
+        
+        // Criar mensagem flutuante
+        function createFloatingMessage() {
+            const container = document.getElementById('message-container');
+            const message = document.createElement('div');
+            message.classList.add('message-bubble');
+            
+            // Selecionar mensagem aleatória
+            const messages = [
+                "Te amo!",
+                "Minha baixinha 💖",
+                "Eternidade com você",
+                "23/03/2024 ❤️",
+                "Você é perfeita",
+                "Minha princesa"
+            ];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            message.textContent = randomMessage;
+            
+            // Posição aleatória
+            const left = Math.random() * 90; // Limita a posição entre 0% e 90%
+            message.style.left = `${left}%`;
+            
+            // Atraso aleatório
+            const delay = Math.random() * 5;
+            message.style.animationDelay = `${delay}s`;
+            
+            container.appendChild(message);
+            
+            // Remover após a animação
+            setTimeout(() => {
+                message.remove();
+            }, 8000);
+        }
+        
+        // Surpresa especial
+        function showSurprise() {
+            // Criar explosão de corações
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.innerHTML = '❤️';
-                    heart.className = 'heart';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                    document.body.appendChild(heart);
-                    
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 4000);
+                    createFloatingMessage();
                 }, i * 100);
             }
+            
+            // Mostrar mensagem especial
+            quoteElement.textContent = '"Você é a melhor coisa que já me aconteceu!"';
+            quoteElement.style.color = '#ffb347';
+            
+            // Voltar ao normal após 3 segundos
+            setTimeout(() => {
+                quoteElement.style.color = '';
+                showNewQuote(); // Garante que uma nova citação seja exibida
+            }, 3000);
         }
+        
+        // Controle de música
+        function setupMusic() {
+            let audio = null;
+            let isPlaying = false;
 
-        // Função principal
-        function calculateLove() {
-            const name1 = document.getElementById('name1').value.trim();
-            const name2 = document.getElementById('name2').value.trim();
-            const percentageDiv = document.getElementById('percentage');
-            const loveCircle = document.getElementById('loveCircle');
-            const coupleNamesDiv = document.getElementById('coupleNames');
-            
-            if (!name1 || !name2) {
-                alert("Por favor, digite ambos os nomes!");
-                return;
-            }
-            
-            // Verifica se é um casal especial
-            const lowerName1 = name1.toLowerCase();
-            const lowerName2 = name2.toLowerCase();
-            const specialCouple = 
-                (lowerName1 === 'nathaly' && lowerName2 === 'fellipe') || 
-                (lowerName1 === 'fellipe' && lowerName2 === 'nathaly');
-            
-            coupleNamesDiv.textContent = `${name1} ❤️ ${name2}`;
-            
-            if (specialCouple) {
-                // Efeito infinito para o casal especial
-                percentageDiv.innerHTML = '∞ INFINITO';
-                percentageDiv.classList.add('infinite');
-                loveCircle.style.background = 'conic-gradient(#ff2e63 0%, #ff8e9e 100%)';
-                
-                // Efeitos especiais
-                createHearts(50);
-                coupleNamesDiv.style.animation = 'pulse 1.5s infinite';
-            } else {
-                // Gera uma porcentagem aleatória para outros casais
-                const randomPercent = Math.floor(Math.random() * 31) + 70; // 70-100%
-                percentageDiv.textContent = randomPercent + '%';
-                percentageDiv.classList.remove('infinite');
-                loveCircle.style.background = `conic-gradient(#ff2e63 0%, #ff8e9e ${randomPercent}%, white ${randomPercent}%)`;
-                coupleNamesDiv.style.animation = 'none';
-                
-                // Efeitos menores
-                if (randomPercent > 90) createHearts(10);
-            }
-        }
+            musicBtn.addEventListener('click', () => {
+                if (!audio) {
+                    // Caminho relativo para o arquivo de áudio
+                    audio = new Audio('./audio/Aliança - Tribalistas (lyric video).mp3');
+                    audio.loop = true;
+                }
 
-        // Mostrar as mensagens de amor
-        function showLoveMessages() {
-            const container = document.getElementById('messagesContainer');
-            const btn = document.getElementById('showMessagesBtn');
-            
-            if (container.style.display === 'none' || !container.style.display) {
-                container.innerHTML = '';
-                loveMessages.forEach(msg => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message';
-                    messageDiv.textContent = msg;
-                    container.appendChild(messageDiv);
-                });
-                container.style.display = 'block';
-                btn.textContent = 'Ocultar Mensagens';
-            } else {
-                container.style.display = 'none';
-                btn.textContent = 'Mostrar 25 Formas de Dizer "Eu Te Amo"';
-            }
+                if (isPlaying) {
+                    audio.pause();
+                    musicBtn.textContent = '♫';
+                } else {
+                    audio.play();
+                    musicBtn.textContent = '❚❚';
+                }
+
+                isPlaying = !isPlaying;
+            });
         }
+        
+        // Inicialização
+        window.onload = function() {
+            createParticles();
+            createPetals();
+            updateTimeTogether();
+            showNewQuote();
+            setupMusic();
+            
+            // Atualizar contador a cada segundo
+            setInterval(updateTimeTogether, 1000);
+            
+            // Criar mensagens flutuantes periodicamente
+            setInterval(createFloatingMessage, 3000);
+            
+            // Event listeners
+            newQuoteBtn.addEventListener('click', showNewQuote);
+            surpriseBtn.addEventListener('click', showSurprise);
+        };
     </script>
 </body>
 </html>
